@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: ganesh-festival-dashboard
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GOOGLE_SHEET_ID
+        value: 1gdSGkcrZ2tQcyyxO7Y2-vkMPz29nB2hXgWHoCYzlU_c
+      - key: GOOGLE_SHEET_GID
+        value: "0"
+      - key: COMMITTEE_SHEET_NAME
+        value: committee-members
+      - key: COMMITTEE_MEMBER_COUNT
+        value: "22"
+      - key: REFRESH_SECONDS
+        value: "5"
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: VIEWER_USERNAME
+        sync: false
+      - key: VIEWER_PASSWORD
+        sync: false
+      - key: APP_SECRET
+        sync: false
+      - key: GOOGLE_SHEETS_WRITE_URL
+        sync: false
+      - key: GOOGLE_SHEETS_WRITE_TOKEN
+        sync: false
+      - key: COOKIE_SECURE
+        value: "true"

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#180c13" />
+    <title>Ganesh Festival Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="glow glow-a"></div><div class="glow glow-b"></div>
+    <section id="login-view" class="login-view">
+      <div class="login-card">
+        <div class="brand login-brand"><span class="brand-icon">ॐ</span><div><strong>Ganesh Festival</strong><small>Seva & celebrations dashboard</small></div></div>
+        <p class="eyebrow">Secure access</p>
+        <h1>Welcome back.</h1>
+        <div class="auth-tabs"><button id="signin-tab" type="button" class="auth-tab active">Sign in</button><button id="register-tab" type="button" class="auth-tab">Register</button></div>
+        <form id="login-form" class="login-form">
+          <label>Username<input id="username" name="username" autocomplete="username" required /></label>
+          <label>Password<input id="password" name="password" type="password" autocomplete="current-password" required /></label>
+          <button type="submit" class="primary-button">Sign in</button>
+        </form>
+        <form id="register-form" class="login-form" hidden>
+          <label>Username<input name="username" autocomplete="username" minlength="3" maxlength="32" required /></label>
+          <label>Password<input name="password" type="password" autocomplete="new-password" minlength="8" required /></label>
+          <label>Confirm password<input name="confirm_password" type="password" autocomplete="new-password" minlength="8" required /></label>
+          <button type="submit" class="primary-button">Create viewer account</button>
+        </form>
+        <p id="login-error" class="form-error" hidden></p>
+      </div>
+    </section>
+
+    <main id="app-view" class="dashboard-shell" hidden>
+      <header class="topbar">
+        <div class="brand"><span class="brand-icon">ॐ</span><div><strong>Ganesh Festival</strong><small>Seva & celebrations dashboard</small></div></div>
+        <div class="account-actions"><span id="role-label" class="role-label"></span><button id="change-password-button" class="icon-button" type="button" aria-label="Change admin password" title="Change admin password" hidden><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg></button><button id="logout-button" type="button">Sign out</button></div>
+      </header>
+
+      <section class="welcome">
+        <div><p class="eyebrow">श्री गणेशाय नमः · Festival operations</p><h1>Celebration with <span>transparency.</span></h1><p>Track donations, daily expenses, and volunteer contributions from one simple read-only view.</p></div>
+        <div class="date-badge"><span id="today-label">Festival day</span><strong id="updated-label">Connecting…</strong></div>
+      </section>
+
+      <section id="admin-entry-panel" class="panel admin-panel" hidden>
+        <div class="panel-heading"><div><p class="panel-kicker">Admin access</p><h2>Add festival entry</h2></div><span class="admin-badge">Writes to Google Sheet</span></div>
+        <div class="entry-modes"><button id="expense-mode-button" type="button" class="mode-button active">Add expense</button><button id="committee-mode-button" type="button" class="mode-button">Add committee amount</button></div>
+        <form id="entry-form" class="entry-form">
+          <label>Date<input id="entry-date" name="date" type="date" required /></label>
+          <input id="entry-type" name="type" type="hidden" value="Expense" />
+          <input id="entry-mode" name="mode" type="hidden" value="expense" />
+          <label id="added-by-label" hidden>Added by<select name="added_by"><option value="">Select added by</option><option value="Hemanth Lodda">Hemanth Lodda</option><option value="Dinesh">Dinesh</option></select></label>
+          <label id="committee-member-name-label" hidden>Added by<select name="committee_member_name"><option value="">Select committee member</option></select></label>
+          <label id="amount-asked-by-label" hidden>Amount asked by<select name="amount_asked_by"><option value="">Select committee member</option></select></label>
+          <label id="category-label">Category<input name="category" placeholder="Decoration, food…" required /></label>
+          <label id="amount-label">Amount spent<input id="entry-amount" name="amount" type="number" min="0" step="0.01" placeholder="0" required /></label>
+          <label>Payment method<input name="payment_method" placeholder="Cash, UPI…" required /></label>
+          <label>Description<input name="description" placeholder="What was this for?" /></label>
+          <label id="receipt-label">Receipt screenshot (optional)<input name="receipt_image" type="file" accept="image/*" /></label>
+          <label>Phone number<input id="phone-number-input" name="phone_number" inputmode="tel" minlength="10" maxlength="13" placeholder="Auto-filled from member" required /></label>
+          <div class="form-actions"><button type="submit" class="primary-button">Save entry</button><span id="entry-status" class="entry-status"></span></div>
+        </form>
+      </section>
+
+      <section id="password-panel" class="password-modal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="password-panel-title"><div class="password-dialog panel"><div class="panel-heading"><div><p class="panel-kicker">Admin security</p><h2 id="password-panel-title">Change admin password</h2></div><button id="close-password-button" class="modal-close" type="button" aria-label="Close admin security">×</button></div><form id="password-form" class="password-form"><label>Current password<input name="current_password" type="password" autocomplete="current-password" required /></label><label>New password<input name="new_password" type="password" autocomplete="new-password" minlength="8" required /></label><label>Confirm new password<input name="confirm_password" type="password" autocomplete="new-password" minlength="8" required /></label><div class="form-actions"><button type="submit" class="primary-button">Update password</button><button id="cancel-password-button" type="button" class="secondary-button">Cancel</button><span id="password-status" class="entry-status"></span></div></form><section class="viewer-management" aria-labelledby="viewer-management-title"><div class="viewer-section-heading"><div><p class="panel-kicker">Viewer accounts</p><h3 id="viewer-management-title">Registered viewers</h3></div></div><div id="registered-users-list" class="registered-users-list">Loading registered viewers…</div></section></div></section>
+
+      <div id="notice" class="notice" hidden></div>
+
+      <section class="metric-grid" aria-label="Festival totals">
+        <article class="metric-card gold"><span>Total donations</span><strong id="total-donations">₹0</strong><small id="donation-count">0 entries</small></article>
+        <article class="metric-card rose"><span>Total expenses</span><strong id="total-expenses">₹0</strong><small id="expense-count">0 entries</small></article>
+        <article class="metric-card green"><span>Balance remaining</span><strong id="balance">₹0</strong><small>Donations minus expenses</small></article>
+        <article class="metric-card violet"><span>Committee total amount</span><strong id="committee-total">₹0</strong><small id="committee-count">0 / 22 members</small></article>
+      </section>
+
+      <section class="main-grid single-panel-grid">
+        <article class="panel expense-panel"><div class="panel-heading"><div><p class="panel-kicker">Daily spend</p><h2>Daily expenses</h2></div><span class="panel-icon">₹</span></div><div id="expense-chart" class="expense-chart"><div class="empty-chart">No expense data yet</div></div></article>
+      </section>
+
+      <section class="panel payment-panel"><div class="panel-heading"><div><p class="panel-kicker">Payment methods</p><h2>Cash & online split</h2></div><span class="read-only">Live totals</span></div><div class="payment-pie-grid"><div class="payment-pie-card"><h3>Received</h3><div id="received-pie" class="payment-pie"><span>₹0</span></div><div id="received-legend" class="payment-legend"></div></div><div class="payment-pie-card"><h3>Spent</h3><div id="spent-pie" class="payment-pie"><span>₹0</span></div><div id="spent-legend" class="payment-legend"></div></div></div></section>
+
+      <section class="panel committee-balance-panel"><div class="panel-heading"><div><p class="panel-kicker">Contribution tracking</p><h2>Committee remaining balance</h2></div><span class="read-only">Fixed minus paid</span></div><div class="committee-summary-grid"><div><span>Fixed total</span><strong id="committee-fixed-total">₹0</strong></div><div><span>Paid total</span><strong id="committee-paid-total">₹0</strong></div><div class="remaining"><span>Remaining total</span><strong id="committee-remaining-total">₹0</strong></div></div><div id="committee-balance-list" class="committee-balance-list"><div class="empty-list">No committee balances yet</div></div></section>
+
+      <section class="panel donations-panel"><div class="panel-heading"><div><p class="panel-kicker">Contributions</p><h2>Committee & other amounts</h2></div><span class="read-only">Unique by phone</span></div><div class="table-wrap"><table><thead><tr><th>Name</th><th>Date</th><th>Added by</th><th>Phone</th><th>Type</th><th>Entries</th><th class="amount">Total amount</th></tr></thead><tbody id="donations-body"><tr><td colspan="7" class="empty-table">No amounts yet</td></tr></tbody></table></div></section>
+
+      <section class="panel entries-panel"><div class="panel-heading"><div><p class="panel-kicker">Festival spending</p><h2>Expense details</h2></div><span class="read-only">Expenses only</span></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Added by</th><th>Amount asked by</th><th>Category</th><th>Description</th><th>Payment</th><th>Receipt</th><th class="amount">Amount spent</th></tr></thead><tbody id="expenses-body"><tr><td colspan="8" class="empty-table">No expenses yet</td></tr></tbody></table></div></section>
+
+      <footer>Admin entries are saved to Google Sheets · Committee target: 22 members · Viewer access is read-only</footer>
+    </main>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
